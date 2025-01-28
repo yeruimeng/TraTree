@@ -82,7 +82,7 @@ def main(args: argparse.Namespace):
     if args.model_name is not None:
         agent_config['config']['model_name'] = args.model_name
 
-    output_path = os.path.join("/home/bhui/ML/ruimeng/ETO-main/strong_alf_test", agent_config['config']['model_name'].replace('/', '_'), args.exp_config+args.exp_name)
+    output_path = os.path.join("./path", agent_config['config']['model_name'].replace('/', '_'), args.exp_config+args.exp_name)
     # output_path = os.path.join("outputs", agent_config['config']['model_name'].replace('/', '_'), args.exp_config+args.exp_name)
     pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
 
