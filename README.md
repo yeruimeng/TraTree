@@ -16,6 +16,12 @@ Use the folowing command to sft model
 
 ```
 
+Then, construct preference pairs：
+```
+python construct_preference.py --model <your model name> --task <task name> --golden_traj_path <your data path> --output_path <output path>
+
+```
+
 W2SG DPO:
 ```
 ./dpo.sh
