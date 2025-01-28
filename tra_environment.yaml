@@ -317,4 +317,4 @@ dependencies:
       - xxhash==3.4.1
       - yarl==1.9.4
       - zipp==3.19.2
-prefix: /home/bhui/miniconda3/envs/eto
+prefix: /envs
