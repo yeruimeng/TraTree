@@ -47,7 +47,7 @@ def mcts(root, iterations=1000):
         path = [node]
         
         while node.children:
-            total_visits = sum(child.visit_count for child in node.children)
+            parent_visits = node.parent.visit_count if node.parent else root.visit_count
             if total_visits == 0:
                 node = random.choice(node.children)
             else:
