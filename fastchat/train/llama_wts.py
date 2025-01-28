@@ -222,4 +222,4 @@ final_model_path = os.path.join(training_args.output_dir, "final_merged_model")
 merged_model.save_pretrained(final_model_path)
 tokenizer.save_pretrained(final_model_path)
 
-print(f"合并完成。最终模型已保存至 {final_model_path}")
+print(f"merge finish, save to {final_model_path}")

@@ -46,7 +46,6 @@ def mcts(root, iterations=1000):
         node = root
         path = [node]
         
-        # Selection
         while node.children:
             total_visits = sum(child.visit_count for child in node.children)
             if total_visits == 0:
@@ -55,10 +54,8 @@ def mcts(root, iterations=1000):
                 node = max(node.children, key=lambda n: ucb(n, total_visits))
             path.append(node)
         
-        # Simulation
         reward = node.total_reward / node.visit_count if node.visit_count > 0 else 0
-        
-        # Backpropagation
+
         for n in path:
             n.visit_count += 1
             n.total_reward += reward
@@ -237,11 +234,10 @@ def main():
             with open('./temp.json', 'w', encoding='utf-8') as f:
                 json.dump(all_results, f, ensure_ascii=False, indent=2)
     
-    # 将所有结果保存到最终的JSON文件
+
     with open('./json', 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
     
-    # 删除临时文件
     temp_file = Path('./temp.json')
     if temp_file.exists():
         temp_file.unlink()

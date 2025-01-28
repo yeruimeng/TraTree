@@ -205,12 +205,10 @@ trainer.model.save_pretrained(dpo_lora_path)
 
 print("Done")
 
-# 将DPO LoRA权重合并到参考模型
 print("merge begin")
 ref_model = PeftModel.from_pretrained(ref_model, dpo_lora_path)
 merged_model = ref_model.merge_and_unload()
 
-# 保存最终合并后的模型
 final_model_path = os.path.join(training_args.output_dir, "final_merged_model")
 merged_model.save_pretrained(final_model_path)
 
