@@ -49,15 +49,13 @@ def preprocess(sources, tokenizer: transformers.PreTrainedTokenizer) -> Dict:
     for source in sources:
         conversation = []
         
-        # 处理 'prompt' 部分
         if 'prompt' in source:
             for turn in source['prompt']:
                 if turn['from'] == 'human':
                     conversation.append({"role": "user", "content": turn['value']})
                 elif turn['from'] == 'gpt':
                     conversation.append({"role": "assistant", "content": turn['value']})
-        
-        # 处理 'conversations' 部分
+    
         if 'conversations' in source:
             for turn in source['conversations']:
                 if turn['from'] == 'human':
@@ -149,7 +147,6 @@ def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, dat
     return dict(train_dataset=train_dataset, eval_dataset=None)
 
 def train(args):
-    # print_gpu_info()  # 添加这行来打印 GPU 信息
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_name_or_path,
         use_fast=False,
@@ -193,7 +190,7 @@ def train(args):
         lr_scheduler_type=args.lr_scheduler_type,
         fp16=True,
         save_strategy="steps",
-        save_steps=100,  # 修改保存步数为1000以匹配你的checkpoint
+        save_steps=100,  
         logging_steps=10,
         evaluation_strategy="no",
     )
@@ -205,7 +202,6 @@ def train(args):
         tokenizer=tokenizer,
     )
 
-    # 检查是否有现有的checkpoint
     checkpoint_dir = os.path.join(args.output_dir, "checkpoint-1000")
     
     if os.path.exists(checkpoint_dir):
@@ -215,10 +211,9 @@ def train(args):
         print("No checkpoint found, starting training from scratch.")
         trainer.train()
     
-    # 保存 LoRA 权重
+
     model.save_pretrained(os.path.join(args.output_dir, "lora_weights"))
     
-    # 合并 LoRA 权重到原始模型并保存
     merged_model = model.merge_and_unload()
     merged_model.save_pretrained(os.path.join(args.output_dir, "merged_model"))
     tokenizer.save_pretrained(os.path.join(args.output_dir, "merged_model"))

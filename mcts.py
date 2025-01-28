@@ -15,10 +15,9 @@ class TreeNode:
         self.children = []
         self.parent = parent
 
-# 加载句子嵌入模型
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-state_embedding_cache = {}  # 缓存状态文本的嵌入
-SIMILARITY_THRESHOLD = 0.9  # 相似度阈值
+state_embedding_cache = {} 
+SIMILARITY_THRESHOLD = 0.9  
 
 def are_states_similar(state1, state2):
     if state1 == state2:
@@ -83,25 +82,16 @@ def get_best_path(root):
     return path
 
 def process_json_files(file_pattern):
-    """处理指定模式的JSON文件
-    
-    Args:
-        file_pattern: 文件名模式，如 "0_0.json"
-    """
     trajectories = []
     initial_prompt = None
     task_description = None
     
-    # 定义所有文件夹路径
     folders = [
-        "/home/bhui/ML/ruimeng/ETO-main/naive_7B_model_explore_temp0.7P0.9_sci/Llama-2-7b-chat-hf/sciworld",
-        "/home/bhui/ML/ruimeng/ETO-main/sft_7B_model_explore_temp0.7P0.9_sci/merged_model/sciworld",
-        "/home/bhui/ML/ruimeng/ETO-main/sft_7B_model_explore_temp0P0_sci/merged_model/sciworld",
-        "/home/bhui/ML/ruimeng/ETO-main/sft_7B_model_explore_temp1.0P0.8_sci/merged_model/sciworld"
+       "./data1"
+       "./data2"
     ]
     
     try:
-        # 对每个文件夹处理相同文件名的JSON
         for folder in folders:
             file_path = Path(folder) / file_pattern
             
@@ -112,7 +102,6 @@ def process_json_files(file_pattern):
                 data = json.load(f)
                 conversations = data['conversations']
                 
-                # 找到第二个任务的开始位置
                 second_task_index = None
                 for i, convo in enumerate(conversations):
                     if "Task Description:" in convo['value']:
@@ -123,14 +112,11 @@ def process_json_files(file_pattern):
                 if second_task_index is None:
                     continue
                 
-                # 存储初始的prompt（包括第一个任务的完整对话）
                 if initial_prompt is None:
                     initial_prompt = conversations[:second_task_index]
-                
-                # 只处理第二个任务的对话
+             
                 second_task_conversations = conversations[second_task_index + 1:]
                 
-                # 提取状态-动作-思考序列
                 state_action_pairs = []
                 state = None
                 for convo in second_task_conversations:
@@ -175,9 +161,8 @@ def process_json_files(file_pattern):
     return trajectories, initial_prompt, task_description
 
 def generate_output(best_path, initial_prompt, task_description):
-    # 构建输出数据结构
     output_data = {
-        "id": "",  # 可以根据需要设置ID
+        "id": "",  
         "prompt": initial_prompt + [{
             "from": "human",
             "value": task_description
@@ -185,9 +170,7 @@ def generate_output(best_path, initial_prompt, task_description):
         "conversations": []
     }
     
-    # 生成第二个任务的最优路径对话
     for step in best_path:
-        # 添加模型的回复，包括 Thought 和 Action
         gpt_value = ""
         if step['thought']:
             gpt_value += f"Thought: {step['thought']}\n"
@@ -197,7 +180,6 @@ def generate_output(best_path, initial_prompt, task_description):
             "value": gpt_value
         })
         
-        # 添加环境的反馈（状态）
         if step['state']:
             output_data["conversations"].append({
                 "from": "human",
@@ -207,25 +189,21 @@ def generate_output(best_path, initial_prompt, task_description):
     return output_data
 
 def main():
-    # 存储所有处理结果
     all_results = []
     
-    # 获取第一个文件夹中的所有json文件名
-    first_folder = Path("/home/bhui/ML/ruimeng/ETO-main/naive_7B_model_explore_temp0.7P0.9_sci/Llama-2-7b-chat-hf/sciworld")
+    first_folder = Path("./data1")
     file_patterns = [f.name for f in first_folder.glob("*.json")]
     
     print(f"Found {len(file_patterns)} JSON files to process")
     
     for file_pattern in file_patterns:
         print(f"Processing {file_pattern}...")
-        # 读取并处理文件
         trajectories, initial_prompt, task_description = process_json_files(file_pattern)
         
         if not trajectories:
             print(f"No valid trajectories found for {file_pattern}")
             continue
-        
-        # 构建决策树
+
         root = TreeNode(state='ROOT', action=None, thought=None)
         for traj in trajectories:
             state_action_pairs = traj['state_action_pairs']
@@ -245,32 +223,26 @@ def main():
                     node.children.append(new_node)
                     node = new_node
             node.total_reward += reward
-        
-        # 应用蒙特卡罗树搜索
+ 
         mcts(root, iterations=1000)
         
-        # 获取最优路径
         best_path = get_best_path(root)
         
-        # 生成输出
         output_data = generate_output(best_path, initial_prompt, task_description)
-        # 设置ID为文件名（去除.json后缀）
         output_data["id"] = file_pattern[:-5]
-        
-        # 添加到结果列表
+  
         all_results.append(output_data)
         
-        # 定期保存结果，避免处理中断导致的数据丢失
         if len(all_results) % 10 == 0:
-            with open('all_4_optimal_trajectories_temp.json', 'w', encoding='utf-8') as f:
+            with open('./temp.json', 'w', encoding='utf-8') as f:
                 json.dump(all_results, f, ensure_ascii=False, indent=2)
     
     # 将所有结果保存到最终的JSON文件
-    with open('all_4_optimal_trajectories.json', 'w', encoding='utf-8') as f:
+    with open('./json', 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
     
     # 删除临时文件
-    temp_file = Path('all_4_optimal_trajectories_temp.json')
+    temp_file = Path('./temp.json')
     if temp_file.exists():
         temp_file.unlink()
     
