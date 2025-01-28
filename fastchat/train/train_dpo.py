@@ -17,10 +17,8 @@ else:
     beta = 0.5
     learning_rate = 5e-7
 
-# 设置最大长度
 max_length = 4096
 
-# 设置训练参数
 training_args = TrainingArguments(
     output_dir="./output",
     num_train_epochs=3,
