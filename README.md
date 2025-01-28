@@ -16,13 +16,6 @@ Use the folowing command to sft model
 
 ```
 
-Use the folowing command to sft model
-
-```
-./lora.sh
-
-```
-
 W2SG DPO:
 ```
 ./dpo.sh
