@@ -86,7 +86,7 @@ tokenizer = AutoTokenizer.from_pretrained(
 if tokenizer.pad_token != tokenizer.unk_token:
     tokenizer.pad_token = tokenizer.unk_token
 
-data_path = "/home/bhui/ML/ruimeng/ETO-main/data_pm/qwen_webshop_ceiling_strong+golden_pair.json"
+data_path = "./path"
 dataset = load_dataset("json", data_files=data_path)
 
 IGNORE_TOKEN_ID = -100 
