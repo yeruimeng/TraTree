@@ -1,5 +1,32 @@
-# Weak-to-Strong Generalization with Failure Trajectories:  A Tree-based Approach to Elicit Optimal Policy in Strong Models
-## Installation
+<h1 align="center">
+  Weak-to-Strong Generalization with Failure Trajectories: A Tree-based Approach to Elicit Optimal Policy in Strong Models
+</h1>
+
+<div align="center">
+  
+[![arXiv](https://img.shields.io/badge/arXiv-2507.18858-b31b1b.svg)](https://arxiv.org/abs/2507.18858)
+
+</div>
+
+<p align="center">
+    Ruimeng&nbsp;Ye<sup>1</sup>, 
+    Zihan&nbsp;Wang<sup>2</sup>, 
+    Yang&nbsp;Xiao<sup>1</sup>, 
+    Zinan&nbsp;Ling<sup>1</sup>, 
+    Manling&nbsp;Li<sup>2</sup>, 
+    Bo&nbsp;Hui<sup>1</sup>
+</p>
+<p align="center"><sup>1</sup>University&nbsp;of&nbsp;Tulsa,&nbsp; <sup>2</sup>Northwestern&nbsp;University</p>
+
+## 📢 Updates
+
+- **[2025-07-28]** Our paper is available on arXiv, check it out [here](https://www.arxiv.org/abs/2507.18858).
+
+## 🌟 Overview
+
+TraTree is a modular toolkit that upgrades a strong model using both successes and failures from a weaker agent. It builds trajectory trees, prunes them with MCTS, converts branches into preference pairs, and fine-tunes the strong model with SFT and DPO. Below are ready-to-run scripts let you test gains on WebShop and other benchmarks quickly.
+
+## ⚙️ Installation
 
 Get start with the environment setup:
 
@@ -8,7 +35,7 @@ conda env create -f tra_environment.yaml
 
 ```
 
-## Quick Start
+## 🚀 Quick Start
 Use the folowing command to sft model
 
 ```
@@ -34,7 +61,7 @@ python mcts.py
 
 ```
 
-## Evaluation
+## 📊 Evaluation
 First download files from [Google file](https://example.com). Unzip the file, save data under the eval_agent and save data.zip and indexes.zip underthe envs/webshop.(The google drive link will be added later)
 
 Then, launch the controller of FastChat
