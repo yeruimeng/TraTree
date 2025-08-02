@@ -9,13 +9,14 @@
 </div>
 
 <p align="center">
-    Ruimeng&nbsp;Ye<sup>1</sup>, 
-    Zihan&nbsp;Wang<sup>2</sup>, 
-    Yang&nbsp;Xiao<sup>1</sup>, 
-    Zinan&nbsp;Ling<sup>1</sup>, 
-    Manling&nbsp;Li<sup>2</sup>, 
-    Bo&nbsp;Hui<sup>1</sup>
+    <a href="https://www.linkedin.com/in/ruimeng-ye-14416b262/">Ruimeng&nbsp;Ye<sup>1</sup></a>, 
+    <a href="https://zihanwang314.github.io/">Zihan&nbsp;Wang<sup>2</sup></a>, 
+    <a href="https://scholar.google.com/citations?user=FvnT29sAAAAJ&hl=zh-TW">Yang&nbsp;Xiao<sup>1</sup></a>, 
+    <a href="https://openreview.net/profile?id=~Zinan_Ling1">Zinan&nbsp;Ling<sup>1</sup></a>, 
+    <a href="https://limanling.github.io/">Manling&nbsp;Li<sup>2</sup></a>, 
+    <a href="https://scholar.google.com/citations?user=cdwA-5IAAAAJ&hl=en">Bo&nbsp;Hui<sup>1</sup></a>
 </p>
+
 <p align="center"><sup>1</sup>University&nbsp;of&nbsp;Tulsa,&nbsp; <sup>2</sup>Northwestern&nbsp;University</p>
 
 ## 📢 Updates
